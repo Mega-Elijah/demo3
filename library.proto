@@ -1,0 +1,78 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+
+package library;
+
+service LibraryService {
+    rpc addBook(BookRequest) returns (BookResponse);
+    rpc createUsers(stream UserRequest) returns (UserResponse);
+    rpc updateBook(UpdateBookRequest) returns (BookResponse);
+    rpc removeBook (RemoveBookRequest) returns (RemoveBookResponse);
+    rpc listAvailableBooks (Empty) returns (stream BookResponse);
+    rpc locateBook (LocateBookRequest) returns (LocateBookResponse);
+    rpc borrowBook (BorrowBookRequest) returns (BorrowBookResponse);
+}
+
+message BookRequest {
+    string title = 1;
+    string author = 2;
+    optional string other_author = 3;
+    string location = 4;
+    int32 isbn = 5;
+    bool status = 6;
+}
+
+message BookResponse {
+    string title = 1;
+    string author = 2;
+    optional string other_author = 3;
+    string location = 4;
+    int32 isbn = 5;
+    bool status = 6;
+}
+
+message UserRequest {
+    int32 user_id = 1;
+    string user_type = 2;
+}
+
+message UserResponse {
+    int32 user_id = 1;
+    string user_type = 2;
+}
+
+message UpdateBookRequest {
+    int32 isbn = 1;
+    string title = 2;
+    string author_1 = 3;
+    string author_2 = 4;
+    string location = 5;
+    bool status = 6;
+}
+
+message RemoveBookRequest {
+    int32 isbn = 1;
+}
+
+message RemoveBookResponse {
+    repeated BookResponse books = 1;
+}
+
+message Empty {}
+
+message LocateBookRequest {
+    int32 isbn = 1;
+}
+
+message LocateBookResponse {
+    string location = 1;
+}
+
+message BorrowBookRequest {
+    int32 user_id = 1;
+    int32 isbn = 2;
+}
+
+message BorrowBookResponse {
+    bool outcome = 1;
+}
